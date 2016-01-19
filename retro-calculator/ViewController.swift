@@ -11,12 +11,27 @@ import AVFoundation
 
 class ViewController: UIViewController {
 
+    enum Operation: String {
+        case Divide = "/"
+        case Multiply = "*"
+        case Subtract = "-"
+        case Add = "+"
+        case Equals = "="
+        case Empty = "Empty"
+    }
+    
     @IBOutlet weak var outputLbl: UILabel!
     
     var buttonSound: AVAudioPlayer!
     
+    var runningSum: String = ""
+    var leftValueNumber: String = ""
+    var rightValueNumber: String = ""
+    var currentOperation: Operation = Operation.Empty
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         let audioPath = NSBundle.mainBundle().pathForResource("btn", ofType: "wav")
         let audioPathURL: NSURL = NSURL(fileURLWithPath: audioPath!)
@@ -32,6 +47,32 @@ class ViewController: UIViewController {
     
     @IBAction func numberPressed(btn: UIButton) {
         buttonSound.play()
+        
+        runningSum += "\(btn.tag)"
+        
+        outputLbl.text = runningSum
+        
+        
+        
+    }
+    
+    @IBAction func onDividePressed(sender: UIButton) {
+        
+    }
+    
+    @IBAction func onAddPressed(sender: UIButton) {
+        
+    }
+    
+    @IBAction func onMultiplyPressed(sender: UIButton) {
+        
+    }
+    
+    @IBAction func onSubtractPressed(sender: UIButton) {
+        
+    }
+    
+    @IBAction func onEqualPressed(sender: UIButton) {
         
     }
 
