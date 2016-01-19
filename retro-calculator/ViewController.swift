@@ -11,14 +11,6 @@ import AVFoundation
 
 class ViewController: UIViewController {
 
-    enum Operation: String {
-        case Divide = "/"
-        case Multiply = "*"
-        case Subtract = "-"
-        case Add = "+"
-        case Equals = "="
-        case Empty = "Empty"
-    }
     
     @IBOutlet weak var outputLbl: UILabel!
     
@@ -28,6 +20,15 @@ class ViewController: UIViewController {
     var leftValueNumber: String = ""
     var rightValueNumber: String = ""
     var currentOperation: Operation = Operation.Empty
+    
+    enum Operation: String {
+        case Divide = "/"
+        case Multiply = "*"
+        case Subtract = "-"
+        case Add = "+"
+        case Equals = "="
+        case Empty = "Empty"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,34 +47,56 @@ class ViewController: UIViewController {
     }
     
     @IBAction func numberPressed(btn: UIButton) {
-        buttonSound.play()
+        
+        playSound()
         
         runningSum += "\(btn.tag)"
-        
         outputLbl.text = runningSum
-        
-        
-        
     }
     
     @IBAction func onDividePressed(sender: UIButton) {
-        
+        processOperation(Operation.Divide)
     }
     
     @IBAction func onAddPressed(sender: UIButton) {
-        
+        processOperation(Operation.Add)
     }
     
     @IBAction func onMultiplyPressed(sender: UIButton) {
-        
+        processOperation(Operation.Multiply)
     }
     
     @IBAction func onSubtractPressed(sender: UIButton) {
-        
+        processOperation(Operation.Subtract)
     }
     
     @IBAction func onEqualPressed(sender: UIButton) {
+        processOperation(Operation.Equals)
+    }
+    
+    func processOperation(operationToDo: Operation) {
         
+        playSound()
+        
+        
+        
+        
+        if currentOperation != Operation.Empty {
+           runningSum = leftValueNumber currentOperation.rawValue runningSum
+        } else {
+            leftValueNumber = runningSum
+            runningSum = ""
+            currentOperation = operationToDo
+        }
+    
+    }
+    
+    func playSound() {
+        buttonSound.play()
+        if buttonSound.playing {
+            buttonSound.stop()
+        }
+        buttonSound.play()
     }
 
 }
