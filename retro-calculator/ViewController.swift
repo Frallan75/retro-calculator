@@ -10,23 +10,23 @@ import UIKit
 import AVFoundation
 
 class ViewController: UIViewController {
-
+    
     
     @IBOutlet weak var outputLbl: UILabel!
     
     var buttonSound: AVAudioPlayer!
     
-    var runningSum: String = ""
+    var runningNumber: String = ""
     var leftValueNumber: String = ""
     var rightValueNumber: String = ""
     var currentOperation: Operation = Operation.Empty
+    var result: String = ""
     
     enum Operation: String {
         case Divide = "/"
         case Multiply = "*"
         case Subtract = "-"
         case Add = "+"
-        case Equals = "="
         case Empty = "Empty"
     }
     
@@ -50,8 +50,8 @@ class ViewController: UIViewController {
         
         playSound()
         
-        runningSum += "\(btn.tag)"
-        outputLbl.text = runningSum
+        runningNumber += "\(btn.tag)"
+        outputLbl.text = runningNumber
     }
     
     @IBAction func onDividePressed(sender: UIButton) {
@@ -71,24 +71,38 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onEqualPressed(sender: UIButton) {
-        processOperation(Operation.Equals)
+        processOperation(currentOperation)
     }
     
     func processOperation(operationToDo: Operation) {
-        
         playSound()
         
-        
-        
-        
         if currentOperation != Operation.Empty {
-           runningSum = leftValueNumber currentOperation.rawValue runningSum
-        } else {
-            leftValueNumber = runningSum
-            runningSum = ""
+            if runningNumber != "" {
+                
+                rightValueNumber = runningNumber
+                runningNumber = ""
+                
+                switch operationToDo {
+                case .Add: result = "\(Double(leftValueNumber)! + Double(rightValueNumber)!)"
+                case .Divide: result = "\(Double(leftValueNumber)! / Double(rightValueNumber)!)"
+                case .Multiply: result = "\(Double(leftValueNumber)! * Double(rightValueNumber)!)"
+                case .Subtract: result = "\(Double(leftValueNumber)! - Double(rightValueNumber)!)"
+                default: outputLbl.text = "Operator Unknown"
+                }
+                leftValueNumber = result
+                outputLbl.text = result
+            }
+            else {
+                currentOperation = operationToDo
+            }
+        }
+        else {
+            leftValueNumber = runningNumber
+            print(leftValueNumber)
+            runningNumber = ""
             currentOperation = operationToDo
         }
-    
     }
     
     func playSound() {
@@ -98,6 +112,5 @@ class ViewController: UIViewController {
         }
         buttonSound.play()
     }
-
 }
 
